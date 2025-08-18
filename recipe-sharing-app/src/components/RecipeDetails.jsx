@@ -12,7 +12,7 @@ const RecipeDetails = () => {
 
   const handleDelete = () => {
     deleteRecipe(recipe.id);
-    navigate("/"); // بعد الحذف يرجع للصفحة الرئيسية
+    navigate("/"); 
   };
 
   return (
