@@ -1,47 +1,50 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const HomePage = () => {
-  const [items, setItems] = useState([]);
+function HomePage() {
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    // Load data from public/data.json
+    // Fetch recipes from public/data.json
     fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => setItems(data))
-      .catch((err) => console.error("Error loading data:", err));
+      .then((response) => response.json())
+      .then((data) => setRecipes(data))
+      .catch((error) => console.error("Error loading recipes:", error));
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-blue-600 text-white py-12 text-center">
-        <h1 className="text-4xl font-bold mb-2">Welcome to My App</h1>
-        <p className="text-lg">A modern React + Tailwind CSS application</p>
-      </header>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-center mb-8">Recipe Sharing Platform</h1>
 
-      <main className="flex-1 container mx-auto px-4 py-10">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-          Features
-        </h2>
+      {/* Responsive grid layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {recipes.map((recipe) => (
+          <div
+            key={recipe.id}
+            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition"
+          >
+            <img
+              src={recipe.image}
+              alt={recipe.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
+              <p className="text-gray-600 text-sm line-clamp-3">{recipe.description}</p>
 
-        {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition"
-            >
-              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-              <p className="text-gray-600">{item.description}</p>
+              {/* Link to Recipe Detail Page */}
+              <Link
+                to={`/recipe/${recipe.id}`}
+                className="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              >
+                View Details
+              </Link>
             </div>
-          ))}
-        </div>
-      </main>
-
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p>&copy; {new Date().getFullYear()} My App. All rights reserved.</p>
-      </footer>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
+}
 
 export default HomePage;
