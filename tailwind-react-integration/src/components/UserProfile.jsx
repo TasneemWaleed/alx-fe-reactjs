@@ -1,19 +1,17 @@
-import React from "react";
-
-const UserProfile = () => {
+export default function UserProfile() {
   return (
-    <div className="bg-white shadow-md rounded-lg sm:p-4 md:p-8 max-w-xs md:max-w-sm mx-auto text-center">
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Profile"
-        className="rounded-full mx-auto sm:w-24 sm:h-24 md:w-36 md:h-36"
-      />
-      <h2 className="font-bold sm:text-lg md:text-xl mt-4">John Doe</h2>
-      <p className="text-gray-600 sm:text-sm md:text-base">
-        A passionate developer who loves React and Tailwind CSS.
-      </p>
+    <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
+      <div className="p-6 text-center">
+        <img
+          className="w-24 h-24 rounded-full mx-auto transform transition-transform duration-300 ease-in-out hover:scale-110"
+          src="https://via.placeholder.com/150"
+          alt="User"
+        />
+        <h2 className="mt-4 text-xl font-semibold text-gray-800 transition-colors duration-300 ease-in-out hover:text-blue-500">
+          John Doe
+        </h2>
+        <p className="mt-2 text-gray-600">Software Engineer</p>
+      </div>
     </div>
   );
-};
-
-export default UserProfile;
+}
