@@ -29,7 +29,6 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <h1 className="text-blue-500 text-3xl font-bold">Hello Tailwind!</h1>
-
     </>
   )
 }
