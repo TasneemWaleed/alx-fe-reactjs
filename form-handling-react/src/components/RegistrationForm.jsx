@@ -1,84 +1,67 @@
+// src/components/RegistrationForm.jsx
 import { useState } from "react";
 
 export default function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState({});
-
-  // validate fields manually
-  const validate = () => {
-    let newErrors = {};
-    if (!formData.username.trim()) newErrors.username = "Username is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.password.trim()) newErrors.password = "Password is required";
-    return newErrors;
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Submitting data:", formData);
-      // here you can call the mock API later
+    if (!username || !email || !password) {
+      alert("All fields are required!");
+      return;
     }
+
+    console.log("Form submitted:", { username, email, password });
+    alert("User registered successfully!");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border rounded">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
+    <div className="max-w-md mx-auto p-4 bg-white rounded shadow">
+      <h2 className="text-xl font-bold mb-4">User Registration</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-1 font-medium">Username</label>
+          <input
+            type="text"
+            value={username}   /* controlled component */
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full border p-2 rounded"
+            placeholder="Enter username"
+          />
+        </div>
 
-      <div className="mb-3">
-        <label className="block">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
-      </div>
+        <div>
+          <label className="block mb-1 font-medium">Email</label>
+          <input
+            type="email"
+            value={email}   /* controlled component */
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border p-2 rounded"
+            placeholder="Enter email"
+          />
+        </div>
 
-      <div className="mb-3">
-        <label className="block">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-      </div>
+        <div>
+          <label className="block mb-1 font-medium">Password</label>
+          <input
+            type="password"
+            value={password}   /* controlled component */
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border p-2 rounded"
+            placeholder="Enter password"
+          />
+        </div>
 
-      <div className="mb-3">
-        <label className="block">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-      </div>
-
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-        Register
-      </button>
-    </form>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Register
+        </button>
+      </form>
+    </div>
   );
 }
