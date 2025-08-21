@@ -5,12 +5,25 @@ export default function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !email || !password) {
-      alert("All fields are required!");
+    const newErrors = {};
+
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";   {/* ✅ matches if (!email) */}
+    }
+    if (!password) {
+      newErrors.password = "Password is required";   {/* ✅ matches if (!password) */}
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);   {/* ✅ matches setErrors */}
       return;
     }
 
@@ -26,33 +39,42 @@ export default function RegistrationForm() {
           <label className="block mb-1 font-medium">Username</label>
           <input
             type="text"
-            value={username}   /* controlled component */
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full border p-2 rounded"
             placeholder="Enter username"
           />
+          {errors.username && (
+            <p className="text-red-500 text-sm">{errors.username}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1 font-medium">Email</label>
           <input
             type="email"
-            value={email}   /* controlled component */
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border p-2 rounded"
             placeholder="Enter email"
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1 font-medium">Password</label>
           <input
             type="password"
-            value={password}   /* controlled component */
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full border p-2 rounded"
             placeholder="Enter password"
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password}</p>
+          )}
         </div>
 
         <button
