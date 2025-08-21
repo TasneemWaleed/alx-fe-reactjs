@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
-function PostsComponent({ page }) {
-  const fetchPosts = async (page = 1) => {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${page}`);
+function PostsComponent() {
+  const fetchPosts = async () => {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
     return res.json();
   };
 
@@ -14,11 +14,11 @@ function PostsComponent({ page }) {
     error,
     isFetching,
   } = useQuery({
-    queryKey: ["posts", page],
-    queryFn: () => fetchPosts(page),
-    // 👇 caching options
-    cacheTime: 1000 * 60 * 10, // 10 minutes
-    keepPreviousData: true,    // keep old data during new fetch
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+    // 👇 caching behavior
+    staleTime: 1000 * 60 * 5, // data stays fresh for 5 minutes
+    refetchOnWindowFocus: false, // don't refetch automatically on window focus
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -26,14 +26,14 @@ function PostsComponent({ page }) {
 
   return (
     <div>
-      <h2>Posts (Page {page})</h2>
+      <h2>Posts</h2>
       {data.map((post) => (
-        <div key={post.id}>
-          <h4>{post.title}</h4>
+        <div key={post.id} className="mb-4">
+          <h4 className="font-bold">{post.title}</h4>
           <p>{post.body}</p>
         </div>
       ))}
-      {isFetching && <p>Fetching new data...</p>}
+      {isFetching && <p className="text-gray-500">Updating in background...</p>}
     </div>
   );
 }
